@@ -11,7 +11,7 @@ typedef void* queue_t;
  * @return queue_t NULL if queue could not be created, or queue_t otherwise
  */
 queue_t queue_create(int element_size, int capacity);
-void queue_destroy(queue_t queue);
+void queue_destroy(queue_t *queue);
 
 /**
  * @brief Adds an element to the queue

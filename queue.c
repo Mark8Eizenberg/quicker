@@ -2,12 +2,13 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define TO_QUEUE(Q) ((struct _private_queue_struct *)(Q))
 
 struct _private_queue_struct
 {
-    void *elements;
+    __uint8_t *elements;
     int element_size;
     int capacity;
     int head;
@@ -16,6 +17,7 @@ struct _private_queue_struct
 
 queue_t queue_create(int element_size, int capacity)
 {
+    
     struct _private_queue_struct *queue = 
         (struct _private_queue_struct *)malloc(sizeof(struct _private_queue_struct));
     
@@ -30,18 +32,18 @@ queue_t queue_create(int element_size, int capacity)
     }
 
     queue->element_size = element_size;
-    queue->capacity = capacity;
+    queue->capacity = capacity + 1; //Fixing tail and head math
     queue->head = 0;
     queue->tail = 0;
     return queue;
 }
 
-void queue_destroy(queue_t queue)
+void queue_destroy(queue_t *queue)
 {
-    if(queue != NULL){
-        struct _private_queue_struct *q = TO_QUEUE(queue);
-        free(q->elements);
-        free(q);
+    if(*queue != NULL){
+        free(TO_QUEUE(*queue)->elements);
+        free(*queue);
+        *queue = NULL;
     }
 }
 
@@ -58,7 +60,7 @@ int queue_enqueue(queue_t queue, void *element)
         return -1;
     }
 
-    memcpy(q->elements + q->tail * q->element_size, element, q->element_size);
+    memcpy(&q->elements[q->tail * q->element_size], element, q->element_size);
     q->tail = new_tail;
     return 0;
 }
@@ -75,7 +77,7 @@ void *queue_dequeue(queue_t queue)
         return NULL;
     }
 
-    void *element = q->elements + q->head * q->element_size;
+    void *element = &q->elements[q->head * q->element_size];
     q->head = (q->head + 1) % q->capacity;
     return element;
 }
