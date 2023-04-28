@@ -1,7 +1,17 @@
 #include <stdio.h>
 
-#include "tester.h"
-#include "queue.h"
+#include "tester/tester.h"
+#include "quicker/queue.h"
+
+typedef struct{
+    int a;
+    int b;
+} a_t;
+
+void print_a(a_t *a)
+{
+    printf("%d %d\n", a->a, a->b);
+}
 
 int main()
 {
@@ -60,4 +70,33 @@ int main()
     queue_destroy(&queue);
     ASSERT_IS_TRUE(queue_enqueue(queue, &i) == -1, "%s", "Can not enqueue to destroyed queue");
     ASSERT_IS_NULL(queue_dequeue(queue), "%s", "Can not dequeue from destroyed queue");
+
+    queue_t queue_a = queue_create(sizeof(a_t), size);
+
+    a_t a = {1,2};
+    a_t b = {3,4};
+
+    queue_enqueue(queue_a, &a);
+    queue_enqueue(queue_a, &b);
+
+    a_t *r = (a_t *)queue_dequeue(queue_a);
+
+    ASSERT_IS_NOT_NULL(r, "%s", "Dequeue from queue_a");
+    ASSERT_IS_EQUAL(1, r->a, "Dequeued element a->a == %d", r->a);
+    ASSERT_IS_EQUAL(2, r->b, "Dequeued element a->b == %d", r->b);
+    
+    r = (a_t *)queue_dequeue(queue_a);
+    ASSERT_IS_NOT_NULL(r, "%s", "Dequeue from queue_a");
+    ASSERT_IS_EQUAL(3, r->a, "Dequeued element b->a == %d", r->a);
+    ASSERT_IS_EQUAL(4, r->b, "Dequeued element b->b == %d", r->b);
+
+    r = (a_t *)queue_dequeue(queue_a);
+    ASSERT_IS_NULL(r, "%s", "Dequeue from empty queue_a");
+    queue_destroy(&queue_a);
+    ASSERT_IS_EQUAL(-1, queue_enqueue(queue_a, &a), "%s", "Can not enqueue to destroyed queue_a");
+    ASSERT_IS_NULL(queue_dequeue(queue_a), "%s", "Can not dequeue from destroyed queue_a");
+    ASSERT_IS_NULL(queue_a, "%s" ,"queue_a is NULL");
+
+    return 0;
+
 }

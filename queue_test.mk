@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -g -Wpedantic
 LDFLAGS = -g
 LBLIBS = 
-SRC = queue.c queue_test.c
+SRC = quicker/queue.c queue_test.c
 OBJ = $(SRC:.c=.o)
 EXEC = queue_test
 
