@@ -47,7 +47,7 @@ list_t list_create(int element_size, int capacity)
     if(list->nodes == NULL)
         goto free_queue;
 
-    list->elements_memo = malloc(element_size * capacity);
+    list->elements_memo = (__uint8_t *)malloc(element_size * capacity);
     if (list->elements_memo == NULL)
         goto free_nodes;
 
@@ -158,7 +158,7 @@ int list_add_element(list_t list, void *element)
 
     if (l->size == l->capacity)
         return -1;
-    int *free_node_index = queue_dequeue(l->free_nodes);
+    unsigned *free_node_index = queue_dequeue(l->free_nodes);
     if (free_node_index == NULL)
     {
         return -1;
@@ -182,7 +182,7 @@ int list_add_element(list_t list, void *element)
         l->tail = node;
     }
     
-    memcpy(node->element, element, l->element_size);
+    memcpy(node->element, (__uint8_t*)element, l->element_size);
     l->size++;
 
     return 0;
@@ -220,7 +220,7 @@ void list_remove_element(list_t list, iterator_t *iterator)
 
     node->next = NULL;
     node->prev = NULL;
-    int node_index = node - l->nodes;
+    unsigned node_index = node - l->nodes;
     queue_enqueue(l->free_nodes, &node_index);
     *iterator = NULL;
     l->size--;

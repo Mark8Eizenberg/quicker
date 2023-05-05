@@ -125,6 +125,6 @@ int main()
     ASSERT_IS_EQUAL(*element, 123, "Expected element: %d, actual: %d", 123, *element);
 
     MSG_INFO_DEBUG("%s","Destroying list");
-    list_destroy(list);
+    list_destroy(&list);
     ASSERT_IS_NULL(list, "%s", "Destroying list");
 }

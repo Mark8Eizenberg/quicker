@@ -74,6 +74,8 @@ void* list_get_element(iterator_t iterator);
  */
 int list_add_element(list_t list, void* element);
 
+void list_clear(list_t list);
+
 void list_remove_element(list_t list, iterator_t *iterator);
 
 #endif // _LIST_H_

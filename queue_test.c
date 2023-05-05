@@ -97,6 +97,17 @@ int main()
     ASSERT_IS_NULL(queue_dequeue(queue_a), "%s", "Can not dequeue from destroyed queue_a");
     ASSERT_IS_NULL(queue_a, "%s" ,"queue_a is NULL");
 
+    queue_t q = queue_create(sizeof(int), size);
+    for(int i = 0; i < size; ++i){
+        queue_enqueue(q, &i);
+    }
+
+    int *result = NULL;
+    while((result = queue_dequeue(q)) != NULL){
+        ASSERT_IS_NOT_NULL(result, "Dequeue from queue success, get: %d", *result);
+    }
+
+    queue_destroy(&q);
     return 0;
 
 }
