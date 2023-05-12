@@ -74,8 +74,13 @@ void* list_get_element(iterator_t iterator);
  */
 int list_add_element(list_t list, void* element);
 
-void list_clear(list_t list);
-
-void list_remove_element(list_t list, iterator_t *iterator);
+/**
+ * @brief Remove element from list by iterator
+ * 
+ * @param list list_t to remove element from
+ * @param iterator iterator on element
+ * @return iterator_t return next iterator, or NULL if error or next iterator is at the end
+ */
+iterator_t list_remove_element(list_t list, iterator_t iterator);
 
 #endif // _LIST_H_

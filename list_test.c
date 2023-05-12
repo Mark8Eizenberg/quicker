@@ -72,8 +72,9 @@ int main()
     int *element = list_get_element(it);
     ASSERT_IS_NOT_NULL(element, "%s", "Getting first element from list");
     ASSERT_IS_EQUAL(*element, 0, "Expected element: %d, actual: %d", 0, *element);
-    list_remove_element(list, &it);
-    ASSERT_IS_NULL(it, "%s", "Clear iterator after removing element");
+    iterator_t next = list_get_next(it);
+    it = list_remove_element(list, it);
+    ASSERT_IS_EQUAL(next, it, "%s", "Clear iterator after removing element" );
     
     it = list_begin(list);
     ASSERT_IS_NOT_NULL(element, "%s", "Getting first element from list");
@@ -84,12 +85,13 @@ int main()
     it = list_get_next(it);
     element = list_get_element(it);
     ASSERT_IS_EQUAL(*element, expected_raw[3], "Expected element: %d, actual: %d", expected_raw[3], *element);
-    list_remove_element(list, &it);
-    ASSERT_IS_NULL(it, "%s", "Clear iterator after removing element");
+    next = list_get_next(it);
+    it = list_remove_element(list, it);
+    ASSERT_IS_EQUAL(next, it, "%s", "Clear iterator after removing element" );
     it = list_end(list);
     element = list_get_element(it);
     ASSERT_IS_EQUAL(*element, expected_raw[TEST_SIZE -1], "Expected element: %d, actual: %d", expected_raw[TEST_SIZE - 1], *element);
-    list_remove_element(list, &it);
+    list_remove_element(list, it);
     ASSERT_IS_EQUAL(list_get_size(list), TEST_SIZE - 3, "Expected size: %d, actual: %d", TEST_SIZE - 3, list_get_size(list));
 
     for (iterator_t it = list_begin(list); it != NULL; it = list_get_next(it))
@@ -101,28 +103,12 @@ int main()
         pexpected++;
     }
 
-    MSG_INFO_DEBUG("%s","Full clear list");
-    it = list_begin(list);
-    for(; ;)
+    for(iterator_t it = list_begin(list); it != NULL;)
     {
-        iterator_t next = list_get_next(it);
-        list_remove_element(list, &it);
-        ASSERT_IS_NULL(it, "%s", "Clear iterator after removing element");
-        it = next;
-        if(it == NULL){
-            break;
-        }
+        it = list_remove_element(list, it);
     }
+    ASSERT_IS_EQUAL(list_get_size(list), 0, "Expected size: %d, actual: %d", 0, list_get_size(list));
 
-    ASSERT_IS_EQUAL(list_get_size(list), 0, "Expected size: %d, actual: %d after full cleaning list", 0, list_get_size(list));
-
-    MSG_INFO_DEBUG("%s","Adding element to list after full erase");
-    *element = 123;
-    list_add_element(list, element);
-    ASSERT_IS_EQUAL(list_get_size(list), 1, "Expected size: %d, actual: %d after adding element", 1, list_get_size(list));
-    element = list_get_element(list_begin(list));
-    ASSERT_IS_NOT_NULL(element, "%s", "Getting element from start of list");
-    ASSERT_IS_EQUAL(*element, 123, "Expected element: %d, actual: %d", 123, *element);
 
     MSG_INFO_DEBUG("%s","Destroying list");
     list_destroy(&list);

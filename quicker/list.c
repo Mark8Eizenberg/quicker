@@ -188,15 +188,15 @@ int list_add_element(list_t list, void *element)
     return 0;
 }
 
-void list_remove_element(list_t list, iterator_t *iterator)
+iterator_t list_remove_element(list_t list, iterator_t iterator)
 {
     if (list == NULL)
-        return;
+        return NULL;
     if (iterator == NULL)
-        return;
+        return NULL;
 
     struct _private_list *l = TO_LIST(list);
-    struct _private_list_node *node = TO_NODE(*iterator);
+    struct _private_list_node *node = TO_NODE(iterator);
 
     if (l->head == node)
     {
@@ -218,10 +218,11 @@ void list_remove_element(list_t list, iterator_t *iterator)
         node->next->prev = node->prev;
     }
 
+    iterator_t next_element = node->next;
     node->next = NULL;
     node->prev = NULL;
     unsigned node_index = node - l->nodes;
     queue_enqueue(l->free_nodes, &node_index);
-    *iterator = NULL;
     l->size--;
+    return next_element;
 }

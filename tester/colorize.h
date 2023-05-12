@@ -21,6 +21,6 @@
 #define MSG_WARNING(S, ...)     printf(ANSI_COLOR_YELLOW"[WARNING]:"ANSI_COLOR_RESET""S"\n", ##__VA_ARGS__)
 #define MSG_ERROR(S, ...)       printf(ANSI_COLOR_RED "[ERROR]:"ANSI_COLOR_RESET""S"\n", ##__VA_ARGS__)
 
-#define MSG_INFO_DEBUG(S, ...)        printf("\t"ANSI_COLOR_GREEN"[DEBUG INFO]:"ANSI_COLOR_RESET" func \"%s\" in file \"%s\" msg - "S"\n", __func__, __FILE__, ##__VA_ARGS__)
-#define MSG_WARNING_DEBUG(S, ...)     printf("\t"ANSI_COLOR_YELLOW"[DEBUG WARNING]:"ANSI_COLOR_RESET" func \"%s\" in file \"%s\" msg - "S"\n", __func__, __FILE__, ##__VA_ARGS__)
-#define MSG_ERROR_DEBUG(S, ...)       printf("\t"ANSI_COLOR_RED "[DEBUG ERROR]:"ANSI_COLOR_RESET" func \"%s\" in file \"%s\" msg - "S"\n", __func__, __FILE__, ##__VA_ARGS__)
+#define MSG_INFO_DEBUG(S, ...)        printf("\t"ANSI_COLOR_GREEN"[DEBUG INFO]:"ANSI_COLOR_RESET" %s:%d in file \"%s\" msg - "S"\n", __func__, __LINE__, __FILE__, ##__VA_ARGS__)
+#define MSG_WARNING_DEBUG(S, ...)        printf("\t"ANSI_COLOR_YELLOW"[DEBUG INFO]:"ANSI_COLOR_RESET" %s:%d in file \"%s\" msg - "S"\n", __func__, __LINE__, __FILE__, ##__VA_ARGS__)
+#define MSG_ERROR_DEBUG(S, ...)        printf("\t"ANSI_COLOR_RED"[DEBUG INFO]:"ANSI_COLOR_RESET" %s:%d in file \"%s\" msg - "S"\n", __func__, __LINE__, __FILE__, ##__VA_ARGS__)
