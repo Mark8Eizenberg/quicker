@@ -97,56 +97,49 @@ int list_get_size(list_t list)
 {
     if (list == NULL)
         return -1;
-    struct _private_list *l = TO_LIST(list);
-    return l->size;
+    return TO_LIST(list)->size;
 }
 
 int list_capacity(list_t list)
 {
     if (list == NULL)
         return -1;
-    struct _private_list *l = TO_LIST(list);
-    return l->capacity;
+    return TO_LIST(list)->capacity;
 }
 
 iterator_t list_begin(list_t list)
 {
     if (list == NULL)
         return NULL;
-    struct _private_list *l = TO_LIST(list);
-    return l->head;
+    return TO_LIST(list)->head;
 }
 
 iterator_t list_end(list_t list)
 {
     if (list == NULL)
         return NULL;
-    struct _private_list *l = TO_LIST(list);
-    return l->tail;
+    return TO_LIST(list)->tail;
 }
 
 iterator_t list_get_next(iterator_t iterator)
 {
     if (iterator == NULL)
         return NULL;
-    struct _private_list_node *node = TO_NODE(iterator);
-    return node->next;
+    return TO_NODE(iterator)->next;
 }
 
 iterator_t list_get_previous(iterator_t iterator)
 {
     if (iterator == NULL)
         return NULL;
-    struct _private_list_node *node = TO_NODE(iterator);
-    return node->prev;
+    return TO_NODE(iterator)->prev;
 }
 
 void *list_get_element(iterator_t iterator)
 {
     if (iterator == NULL)
         return NULL;
-    struct _private_list_node *node = TO_NODE(iterator);
-    return node->element;
+    return TO_NODE(iterator)->element;
 }
 
 int list_add_element(list_t list, void *element)
