@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -g -Wpedantic
 LDFLAGS = -g
 LBLIBS = 
-SRC = quicker/hash_table.c ht_test.c
+SRC = quicker/hash_table.c hash_table.test.c
 OBJ = $(SRC:.c=.o)
 EXEC = list_test
 

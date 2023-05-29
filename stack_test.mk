@@ -2,9 +2,9 @@ CC = gcc
 CFLAGS = -Wall -g -Wpedantic
 LDFLAGS = -g
 LBLIBS = 
-SRC = quicker/list.c quicker/queue.c list.test.c
+SRC = quicker/stack.c stack.test.c
 OBJ = $(SRC:.c=.o)
-EXEC = list_test
+EXEC = stack_test
 
 all: $(EXEC)
 	rm -rf $(OBJ) 
